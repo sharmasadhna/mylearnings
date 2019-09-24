@@ -1,0 +1,16 @@
+Virtual Memory : http://www.crazyengineers.com/threads/operating-systems-how-does-kernel-interact-with-hardware.35641/
+
+S/W & H/W Interaction: https://www.youtube.com/watch?v=rNl9ol_rPMs
+
+GIT : https://www.atlassian.com/git/tutorials/setting-up-a-repository/git-config
+Hard/sym links : http://www.theunixschool.com/2012/03/soft-links-hard-links-all-about-inodes.html
+Semaphore links: https://docs.oracle.com/cd/E19683-01/806-6867/sync-27385/index.html
+Pipe concept in OS : http://www2.cs.uregina.ca/~hamilton/courses/330/notes/unix/pipes/pipes.html
+Pipe implementation  in C :  https://www.cs.rutgers.edu/~pxk/416/notes/c-tutorials/pipe.html
+Linux basics: commands: nice article 
+https://www-uxsup.csx.cam.ac.uk/pub/doc/redhat/redhat6/rhl60gsghtml/gsg/doc000.html
+
+Learn Linux From scratch:
+https://0xax.gitbooks.io/linux-insides/content/Booting/linux-bootstrap-1.html
+IMP_COMMANDS:
+1.	/etc/passwd : list users and groups
