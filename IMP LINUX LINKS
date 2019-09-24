@@ -14,3 +14,9 @@ Learn Linux From scratch:
 https://0xax.gitbooks.io/linux-insides/content/Booting/linux-bootstrap-1.html
 IMP_COMMANDS:
 1.	/etc/passwd : list users and groups
+
+
+Ping issue:
+iptables -P INPUT ACCEPT
+iptables -P OUTPUT ACCEPT
+iptables -P FORWARD ACCEPT
