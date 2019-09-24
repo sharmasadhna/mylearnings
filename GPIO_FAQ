@@ -1,0 +1,110 @@
+GPIO document:
+IMP LINKS:
+https://www.raspberrypi.org/documentation/usage/gpio/
+https://www.raspberrypi.org/learning/robot-antenna/worksheet/
+http://www.w9xt.com/page_microdesign_pt4_drive_led.html
+https://www.kernel.org/doc/Documentation/devicetree/usage-model.txt
+https://www.kernel.org/doc/Documentation/driver-model/binding.txt
+https://www.kernel.org/doc/Documentation/gpio/board.txt
+how user space talks to kernel: explains show and store functions
+http://opensourceforu.efytimes.com/2015/05/talking-to-the-kernel-through-sysfs/
+
+
+Why GPIO are used?
+Limited pins on hardware, to utilize other pins more generically
+How GPIO accessed in userspace?
+Through sysfs interface on linux, provided by linux kernel. Export kernel structures and attributes to this interface. This interface is a filesystem.
+We also use “export” in device tree files to make that node available to user space.
+GPIO attributes on sysfs
+1.	Direction : in/out 
+a.	Out = “led glow”
+b.	In = “key press”
+2.	Value : 1(high)/0(low)
+a.	Why is it used?
+b.	Writable for outputs
+c.	Readable for inputs (poll for interupts)
+3.	Active_low: 1(high)/0(low)
+a.	Why: To invert value
+What is value and active_low?
+If pin on microcontroller, is used to send the data it has to be configured as output. Example: to glow LED, to turn on/off something.
+ 
+Above fig, configure P0 and P1 as output, 
+To glow LED1, P0 bit should be low
+To glow LED2, set P1 bit as 1,
+These depends on bindings (weather pin is connected to pull up or pull down resistors). 
+Example 	cpu-pwr-off { /* CPU_PWR_OFF */
+gpios = <&gpio2 25 0>;
+output;
+value = <1>;
+active-low;
+};
+Default cpu power off is disabled (it is set to 1). When inversion logic is applied it is enabled and output is high.
+
+NOTE: I have connected an output pin of raspberry pi to multimeter, and multimeter shows 3.3V when value=1 and active_low=0. Changed active_low=1 and multimeter shows 0V. It proves that active_low inverts the value before it reaches its destination. 
+The use of writing active_low, in dts could be to support applications not to break. i.e. from application point of view, cpu-power off when a low signal is send. But on 1 device binding is such that it inverts the logic before it reaches the destination, to support this DTS file should have this info in the form of active_low and value fields.
+If pin to read data, configure it as input
+ 
+When switch is open, r2 pulls pin to ground. 
+When switch is closed, r1 pulls to up.
+NOTE: to understand active_low and value concept, think a nor circuitry between pin and external device, If nor circuitry is present in order to get high output signal, low input has to be sent. And in case there is no nor circuit, the signal sent from bit is received directly at the output.
+
+The gpiolib registers the value attribute in this way:
+ static const DEVICE_ATTR(value, 0644, gpio_value_show, gpio_value_store);
+It creates a device attribute named value, with permission 644; on read it calls gpio_value_show, on write it calls gpio_value_store
+What sysfs does, is to redirect read and write to the correspondent function of a sysfs attribute.
+
+DEVICE TREE QUERIES? 
+Reference: imx6dl-psa-rcca2-b3.dts
+1.	Bootargs = “maxcpus=2”?
+
+
+POINTS FOR MEETING:
+cpu-pwr-off { /* CPU_PWR_OFF */
+gpios = <&gpio2 25 GPIO_ACTIVE_HIGH>;
+output;
+value = <1>;
+active-low;
+};
+Cpu-pwr-off is a GPIO pin,
+•	default as output,
+•	 it serves as input to V850,
+•	 it is on port gpio2 with pin no 25.
+•	GPIO_ACTIVE_HIGH = 0 (/include/dt-bindings/gpio/gpio.h), mentioning this means default output what we want from this pin to be sent, i.e. at start when imx6 is power on 0 is the signal what V850 expects, on cpu reset of imx a signal 1(3.3V) is sent to V850.
+•	Value is the default value to be sent/read from GPIO 
+•	Active_low, inverts value. It is 0/1 based on circuit connection
+pwr-udrop-60 {/* PWR_UDROP_60 */
+gpios = <&gpio6 9 0>;
+input;
+};
+Pwr-udrop-60 is a GPIO pin,
+•	default as input,
+•	 it serves as output to some circuit,
+•	 it is on port gpio6 with pin no 9.
+•	GPIO_ACTIVE_HIGH = 0 (/include/dt-bindings/gpio/gpio.h), mentioning this means default signal what is expected from this pin to be activated, i.e. this pin will be polled and on becoming 0, some signal is sent indicating that the signal is droped to 0.
+•	value is the default value to be sent/read from GPIO, when not mentioned it is 1 
+•	Active_low, inverts value. It is 0/1 based on circuit connection, when not mentioned it is 0. If it is mebtioned active_low=1 and it inverts value, if not mentioned active_low=0 and it doesnot inverts value
+Example starts with:
+1.	imx6-suzuki-sln-c.dtsi -> find .dts : imx6dl-suzuki-sln-c.dts -> search included .dtsi -> imx6-suzuki-sln.dtsi : it has gpio_scc
+
+
+GPIO from driver to sysfs :
+https://lwn.net/Articles/532714/
+When setting the flag as GPIOF_OPEN_DRAIN then it will assume that pins is
+open drain type. Such pins will not be driven to 1 in output mode. It is
+https://www.kernel.org/doc/Documentation/gpio/gpio-legacy.txt
+
+
+
+gpio_request(int gpio, char* label)--- set name for gpio in sysfs
+gpio_direction-output(int gpio, int value)—set gpio direction and value
+
+
+open drain  
+Image from: http://coactionos.com/embedded%20design%20tips/2013/10/21/Tips-Understanding-Microcontroller-Pin-Input-Output-Modes/
+
+open drain pins cant be driven to 1 in output mode.
+If M1 is On output is set to 0V, and when M1 is Off output is neither high nor low.
+
+Check below link for interrupt handling on LSIM
+https://www.linux.com/learn/tutorials/765810-beaglebone-black-how-to-get-interrupts-through-linux-gpio
+
