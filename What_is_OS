@@ -1,0 +1,27 @@
+http://www.crazyengineers.com/threads/operating-systems-how-does-kernel-interact-with-hardware.35641/
+Operating systems: How does kernel interact with hardware?
+Kernel is interface between hardware and shell.
+Kernel code is written for efficient working on hardware, files and interconnected devices.
+Shell is code written for user to interact with hardware.
+
+I'll try to explain in an easy way i hope you will understand. For example Linux has its Kernel code which loads after POST(Power On Self Test) into memory. The original Kernel Code was written and developed by Linus Trovalds in early 1990's, at present day many changes are made to that kernel but the original was written mostly written in C language. Kernel specially provides interaction of user as well as device drivers with hardware as well as virtual devices like files and folders. The Linux Kernel was written as a application interface via which every other program can easily access resources without any deadlock condition. Here is further explanation how it works.
+
+Now you are user working on Linux BASH(Bourne Again Shell) shell also known as basic shell. You might enter some command for listing all folders of same name, now files and folders are nothing but virtual devices. Now the command you entered in shell will load the program responsible for execution of command and that program will interact with Linux Kernel, Linux Kernel might include several micro/macro-kernels(a small part of total kernel code written for interaction with specific device ex. kernel for ROM, kernel for hard disk) from which it selects macro-kernel responsible for interaction with Virtual Devices which again selects micro-kernel for interaction with files and folders. When kernel completes its job it returns the result to main Linux kernel which returns this result to program responsible for execution of your command and the original shell displays the result in user friendly manner. Device Kits and Device Drivers are nothing but Application Interface designed for interaction with hardware which use exchange of stream of bits for intercommunication where Kernel acts as API between them and hardware. Due to which programs with GUI also have to use Kernel.
+
+You might be wondering why use Kernel when the task can be directly accomplished by mere program, its just because when several program will try to access same device for some operation, Kernel will resolve all conflicts and results will not be error prone, due to which Linux is one of the most stable OS of all time which can work even on small amount of memory.
+
+
+How these virtual memory is used by operating system
+First i will tell you how virtual memory concept introduced.
+
+We all know that the instruction are copied to the main memory from the HDD to perform specific/certain task.Now a days applications/ programs are getting larger and require larger space so if our main memory does not have sufficient memory to hold those data, instructions then to solve this concept the concept of virtual memory is introduced.however, we can add another main memory to the system but is costly and sometimes your system may not support additional RAM this led to the evaluation of the concept of Virtual memory. This what how virtual memory concept is introduced and now What is Virtual memory?
+
+Simply virtual memory is the portion of HDD memory used by the operating system. or Virtual Memory is a memory that uses a portion of HDD space as the memory to store the application data and instruction that the system demaded. Virtual Memory can be known as the logical memory, and it controls by the Operating System.
+Adding the Virtual Memory can be done in system configuration.
+
+Now How it works and operated by the operating system?
+
+During the program loading process, the system will copy the application data and its instruction from the HDD into the main memory for its processing.So if the system memory gets filled up, then the system will start moving some of the data and instruction into the virtual memory that don't need to process anymore until those data and instruction need to process again. So the system can call the next data and instruction and copy it into the main memory . When the data and instruction i.e in the virtual Memory needs to process again, the system will first check the main memory for its space. If there is space then it will simply transfer those to the main memory. If there are not any space left for the main memory, the system will first check the main memory and move any data and instructions that doesn't need to be process into the virtual Memory. And then swap the data and instruction that need to be process by the system from the Virtual Memory into the main memory.
+
+So virtual memory is used only for the temporary storage and not for any operation.
+I hope all these information make you clear about how OS used virtual memory
