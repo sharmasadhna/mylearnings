@@ -48,4 +48,11 @@ Push your changes:
   git push origin <BRANCH-NAME>:<REMOTE-BRANCH-NAME> #REMOTE-BRANCH-NAME cna be omitted, 
  # if we want to push same branch name as local name
  
- 
+ Danger commands:
+  git reset --hard <commit-id> # delete the comiits above this commit
+ # To push after this use git push -f # -f for force push
+  
+Creating git repositories: 
+  git init # create empty git repository, command only creates the rpositories, when you run git branch, nothing is shown, 
+# master branch is created once with add/commit changes done
+  git init --bare # create bare repository, cannot run status,log commands here
