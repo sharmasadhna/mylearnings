@@ -1,0 +1,51 @@
+To view the branch in a git repository:
+  git branch
+  git branch -a # To view all local and remote branches, branch with * is the one you currently on.
+  git branch -r # show only remote branches
+  
+Checkout existing branch:
+  git checkout BRANCH-NAME # works only if current directory is clean, have 3 options trash/stas/commit changes before this.
+  
+Create a new branch and start working on it:
+  git branch NEW-BRANCH-NAME
+  git checkout NEW-BRANCH-NAME
+  #Shortcut
+  git checkout -b NEW-BRANCH-NAME # NEW-BRACNCH-NAME is based on the branch you are currently on.
+  
+Rename a branch:
+  git branch -m OLD-BRANCH-NAME NEW-BRANCH-NAME
+  OR
+  git branch --move OLD-BRANCH-NAME NEW-BRANCH-NAME
+  
+Delete a branch:
+Git won’t let you delete a branch that you’re currently on. You first need to checkout a different branch, then run the command:
+  git branch -d BRANCH-TO-DELETE
+# Alternative:
+  git branch --delete BRANCH-TO-DELETE
+Git will throw an error if the changes in the branch you’re trying to delete are not fully merged into the current branch. 
+You can override this and force Git to delete the branch with the -D option (note the capital letter) or using the --force option 
+with -d or --delete :
+  git branch -D BRANCH-TO-DELETE
+# Alternatives
+  git branch -d --force BRANCH-TO-DELETE
+  git branch --delete --force BRANCH-TO-DELETE
+#To delete a remote branch
+  git push origin --delete branch-name
+Compare branches
+  git diff FIRST-BRANCH..SECOND-BRANCH
+
+Push your changes:
+  git add 
+  git commit
+  git push <repository> <refspec> # If not specified <repository> is origin by default, 
+ # <resfspec> is src:dest, src is change you want to push, could be branch name/HEAD/master~4 etc... 
+ # dst is branch where you want to push, dst can be omitted,
+  git push -u <repository> <refspec>
+ # If you are publishing a local branch for the first time on a remote, the "-u" option is helpful. 
+ # It makes sure that a tracking connection between the local and the newly created remote branch is established
+ 
+ To push a local branch to remote:
+  git push origin <BRANCH-NAME>:<REMOTE-BRANCH-NAME> #REMOTE-BRANCH-NAME cna be omitted, 
+ # if we want to push same branch name as local name
+ 
+ 
