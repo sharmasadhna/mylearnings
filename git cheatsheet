@@ -56,3 +56,7 @@ Creating git repositories:
   git init # create empty git repository, command only creates the rpositories, when you run git branch, nothing is shown, 
 # master branch is created once with add/commit changes done
   git init --bare # create bare repository, cannot run status,log commands here
+  
+ FAQ:
+1. run this command from working tree:
+Set GIT_WORK_TREE
