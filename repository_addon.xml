@@ -1,0 +1,39 @@
+<sdk:sdk-addon xmlns:sdk="http://schemas.android.com/sdk/android/addon/7"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <sdk:license type="text" id="dltv72-addon-license">
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this SDK addon except in compliance with the License.
+    You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    </sdk:license>
+    <sdk:add-on>
+        <sdk:vendor-id>dltv72</sdk:vendor-id>
+        <sdk:vendor-display>Dltv72</sdk:vendor-display>
+        <sdk:name-id>dltv72</sdk:name-id>
+        <sdk:name-display>Dltv72 Add-On</sdk:name-display>
+        <sdk:api-level>28</sdk:api-level>
+        <sdk:revision>1</sdk:revision>
+        <sdk:description>Advantech dltv72 Add-On</sdk:description>
+        <sdk:desc-url>http://thenewcircle.com/</sdk:desc-url>
+        <sdk:uses-license ref="dltv72-addon-license"/>
+        <sdk:archives>
+            <sdk:archive>
+                <sdk:size>3041</sdk:size>
+                <sdk:checksum type="sha1">bf3bbfb95e090b4577cbed32350220033470c0db</sdk:checksum>
+                <sdk:url>dltv72_sdk_addon_r1.zip</sdk:url>
+            </sdk:archive>
+        </sdk:archives>
+        <!-- Note the extra libraries present in the add-on -->
+        <sdk:libs>
+            <sdk:lib>
+		 <sdk:name>advexec</sdk:name>
+                <sdk:description>AdvLib</sdk:description>
+            </sdk:lib>
+        </sdk:libs>
+    </sdk:add-on>
+</sdk:sdk-addon>
