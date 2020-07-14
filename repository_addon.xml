@@ -25,7 +25,7 @@
             <sdk:archive>
                 <sdk:size>3041</sdk:size>
                 <sdk:checksum type="sha1">bf3bbfb95e090b4577cbed32350220033470c0db</sdk:checksum>
-                <sdk:url>dltv72_sdk_addon_r1.zip</sdk:url>
+                <sdk:url>dltv72_sdk_addon-eng.sadhna-linux-x86.zip</sdk:url>
             </sdk:archive>
         </sdk:archives>
         <!-- Note the extra libraries present in the add-on -->
