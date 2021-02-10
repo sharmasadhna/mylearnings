@@ -3,8 +3,11 @@ make distclean
 make clean
 make mrproper
 git pull
+
+export ARCH=arm 
+export CROSS_COMPILE=/opt/tooling/codesourcery/MGC-2014.05-46-arm-gcc-4.8.3/Sourcery_CodeBench_for_ARM_Embedded/bin/arm-none-linux-gnueabi-
 To generate kernel opk
-1.	make -j4 ARCH=arm CROSS_COMPILE=/opt/tooling/codesourcery/MGC-2014.05-46-arm-gcc-4.8.3/Sourcery_CodeBench_for_ARM_Embedded/bin/arm-none-linux-gnueabi- imx_v6_v7_defconfig
+1.	make -j4 $ARCH $CROSS_COMPILE imx_v6_v7_defconfig
 It will generate the config file, modify config file :
 1.	Vim .config
 
@@ -12,12 +15,16 @@ It will generate the config file, modify config file :
 + CONFIG_LOCALVERSION="-04317-g32fb2e5"
 + CONFIG_LOCALVERSION_AUTO=n
 3.	vim scripts/setlocalversion
-+ #               echo "+"
-2.	make -j4 ARCH=arm CROSS_COMPILE=/opt/tooling/codesourcery/MGC-2014.05-46-arm-gcc-4.8.3/Sourcery_CodeBench_for_ARM_Embedded/bin/arm-none-linux-gnueabi- menuconfig
-define zip format for uImage(gzip,lzzp etc..)
++ # echo "+"
+2.	make -j4 $ARCH $CROSS_COMPILE menuconfig
+define zip format for uImage(gzip,lzzp etc..), you can change/add/modify any configuration which was different than default config, ex: Drivers, file systems, 
+Power management settings etc...
 
-3.	make -j4 ARCH=arm CROSS_COMPILE=/opt/tooling/codesourcery/MGC-2014.05-46-arm-gcc-4.8.3/Sourcery_CodeBench_for_ARM_Embedded/bin/arm-none-linux-gnueabi- LOADADDR=0x10008000 uImage
+3.	make -j4  $ARCH $CROSS_COMPILE LOADADDR=0x10008000 uImage
 Will create uImage: path will be mentioned if its success
+uImage --> zImage file with the U-Boot wrapper.
+zImage --> self-extracting, compressed Image, does not require the LOADADDR
+
 4.	make -j4 ARCH=arm CROSS_COMPILE=/opt/tooling/codesourcery/MGC-2014.05-46-arm-gcc-4.8.3/Sourcery_CodeBench_for_ARM_Embedded/bin/arm-none-linux-gnueabi- modules
 will create modules
 5.	make -j4 ARCH=arm CROSS_COMPILE=/opt/tooling/codesourcery/MGC-2014.05-46-arm-gcc-4.8.3/Sourcery_CodeBench_for_ARM_Embedded/bin/arm-none-linux-gnueabi- dtbs
