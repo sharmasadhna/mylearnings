@@ -1,0 +1,24 @@
+https://www.collabora.com/news-and-blog/blog/2016/06/10/linux-kernel-memory-corruption-debug-tricks/
+
+Tracing Call Trace :
+1. make menuconfig --> kernel should be compiled with DEBUG flag
+2. addr2line tool
+3. Find Instruction Pointer from dmesg IP <0xffffffff817c69f0>
+4.  #addr2line -e path_to_your_kernel_tree/vmlinux 0xffffffff817c69f0
+    #path_to_your_kernel_tree//./arch/x86/include/asm/spinlock.h:106  ---> But this technique won't work if the corresponding address is not part of the kernel core code 
+                                                                           (if it was an error caused by some module, as we will see in the call trace section).
+5.  nm <buggy kernel module .ko> | grep <module function from Call Trace,>   # nm is a tool to get the offset of a symbol in a section
+      0000000000000680 T <module function from Call Trace,> ex: vmc_cap_destroy  #0x680 is the offset
+6. Find the offset 
+From callTrace if 0x40 is the offset inside the vmc_cap_destroy function where the code execution would return if the call to devm_kfree hadn't triggered the bug.
+ex: In Call Trace ... [   37.183143]  [<ffffffffc03ca6b0>] vmc_cap_destroy+0x40/0x50 [vmc]
+So lets add the function offset we found in the previous step with the offset inside the function: 0x680 + 0x40 = 0x6c0
+
+6.  Find actual line in the module which caused this bug
+    addr2line -e path_to_your_kernel_tree/<buggy kernel module .ko> 0x6c0
+    path_to_your_kernel_tree/drivers/media/vmc/vmc-capture.c:396
+
+Enable debug prints:
+sudo sh -c "echo 8 > /proc/sys/kernel/printk"
+If your kernel is compiled with DYNAMIC_DEBUG flag, then changing the printk level probably won't enable the debug prints in the dmesg log.
+Can enable module logs with +p module name, 
