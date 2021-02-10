@@ -35,8 +35,9 @@ Will generate below .opk
 rbcm-linux-kernel_3.14.61-04317-g32fb2e5.opk
 7.	Copy generated opk to target and install
 scp rbcm-linux-kernel_3.14.61-04317-g32fb2e5.opk root@172.17.0.1:/tmp
-opkg install /tmp/ rbcm-linux-kernel_3.14.61-04317-g32fb2e5.opk
+opkg install /tmp/rbcm-linux-kernel_3.14.61-04317-g32fb2e5.opk
 reboot
+Installation can be of different mode from HostPC connecting USB/OTG to IMX board, from SDCARD or over network
 
 If target panics:
 1.	Check if uname –r[3.14.61-04317-g32fb2e5] name is same as what is in /lib/modules on target : if its different do below steps:
