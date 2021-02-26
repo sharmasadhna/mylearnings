@@ -1,3 +1,7 @@
+Best practice:
+Always "" your variable, even arguments and "${x}" this is much better, $(command) --> evaluate command and give output 
+https://superuser.com/questions/935374/difference-between-and-in-shell-script
+
 #!/bin/bash
 ##############################################################################
 # SHORTCUTS
