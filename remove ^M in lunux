@@ -1,0 +1,6 @@
+To make the ^M disappear in git, type:
+
+git config --global core.whitespace cr-at-eol
+git config --global core.autocrlf true
+
+https://stackoverflow.com/questions/1822849/what-are-these-ms-that-keep-showing-up-in-my-files-in-emacs 
