@@ -5,9 +5,9 @@ make mrproper
 git pull
 
 export ARCH=arm 
-export CROSS_COMPILE=/opt/tooling/codesourcery/MGC-2014.05-46-arm-gcc-4.8.3/Sourcery_CodeBench_for_ARM_Embedded/bin/arm-none-linux-gnueabi-
+export CROSS_COMPILE=*/arm-none-linux-gnueabi-
 To generate kernel opk
-1.	make -j4 $ARCH $CROSS_COMPILE imx_v6_v7_defconfig
+1.	make -j4 $ARCH $CROSS_COMPILE *_defconfig
 It will generate the config file, modify config file :
 1.	Vim .config
 
@@ -25,34 +25,25 @@ Will create uImage: path will be mentioned if its success
 uImage --> zImage file with the U-Boot wrapper.
 zImage --> self-extracting, compressed Image, does not require the LOADADDR
 
-4.	make -j4 ARCH=arm CROSS_COMPILE=/opt/tooling/codesourcery/MGC-2014.05-46-arm-gcc-4.8.3/Sourcery_CodeBench_for_ARM_Embedded/bin/arm-none-linux-gnueabi- modules
+4.	make -j4 $ARCH $CROSS_COMPILE modules
 will create modules
-5.	make -j4 ARCH=arm CROSS_COMPILE=/opt/tooling/codesourcery/MGC-2014.05-46-arm-gcc-4.8.3/Sourcery_CodeBench_for_ARM_Embedded/bin/arm-none-linux-gnueabi- dtbs
+5.	make -j4 $ARCH $CROSS_COMPILE dtbs
 will create dtbs
 
-6.	../scripts-bosch-gen3/opk/mkp.
-Will generate below .opk
-rbcm-linux-kernel_3.14.61-04317-g32fb2e5.opk
-7.	Copy generated opk to target and install
-scp rbcm-linux-kernel_3.14.61-04317-g32fb2e5.opk root@172.17.0.1:/tmp
-opkg install /tmp/rbcm-linux-kernel_3.14.61-04317-g32fb2e5.opk
-reboot
-Installation can be of different mode from HostPC connecting USB/OTG to IMX board, from SDCARD or over network
+Installation can be of different mode from HostPC connecting USB/OTG to IMX board, from SDCARD or over network, copying some opkg files etc...
 
 If target panics:
 1.	Check if uname –r[3.14.61-04317-g32fb2e5] name is same as what is in /lib/modules on target : if its different do below steps:
 1.	After generating modules as above : create package of it 
 
-make -j8 ARCH=arm CROSS_COMPILE=/opt/tooling/codesourcery/MGC-2014.05-46-arm-gcc-4.8.3/Sourcery_CodeBench_for_ARM_Embedded/bin/arm-none-linux-gnueabi- INSTALL_MOD_STRIP=1 modules_install INSTALL_MOD_PATH=~/temp
+make -j8 $ARCH $CROSS_COMPILE INSTALL_MOD_STRIP=1 modules_install INSTALL_MOD_PATH=~/temp
 
-The 3.14.61-04317-g32fb2e5eb should be generated in /home/hsr9kor/temp/lib/modules/ on Ubuntu
+The 3.14.61-04317-g32fb2e5eb should be generated in ~/temp/lib/modules/ on Ubuntu
 Copy it on target at /lib/modules/
 reboot
 2.	If still reboot :
 Copy module as above
-Copy uImage following steps: [
-https://inside-docupedia.bosch.com/confluence/display/gen3generic/Target+kernel+update+via+opk ]
-section: [Linux kernel image and device tree (eMMC => VW MiB, Suzuki, PSA, JAC etc)]
+Copy uImage
 
 3.	If still reboot check if module is taken as older version as on target u have 2 versions now, then should remove older version in /lib/modules/ and keep only one “eb” in /lib/modules/ on target and do the step2 again.  
 
