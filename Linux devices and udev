@@ -1,0 +1,6 @@
+Generic idea of how udev and kernel uevent works
+
+Hotplug vs Cold Plug
+
+How to reduce startup time in IVI system woith the device management
+
